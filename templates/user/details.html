@@ -1,0 +1,37 @@
+{% extends "user/base.html" %}
+{% load static %}
+
+{% block content %}
+    <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col"><h4>SINO</h4></th>
+            <th scope="col"><h4>Details</h4></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row"><h4>Title</h4></th>
+            <td><h4>{{books.title}}</h4></td>
+          </tr>
+          <tr>
+            <th scope="row"><h4>Author</h4></th>
+            <td><h4>{{books.author}}</h4></td>
+          </tr>
+          <tr>
+            <th scope="row"><h4>Price</h4></th>
+            <td><h4>{{books.price}}</h4></td>
+          </tr>
+          <tr>
+            <th scope="row"><h4>Quantity</h4></th>
+            <td><h4>{{books.quantity}}</h4></td>
+          </tr>
+          <tr>
+            <th scope="row"><h4>Image</h4></th>
+            <td><img src="{{books.image.url}}" class="img-thumbnail image rounded" alt=""></td>
+          </tr>
+        </tbody>
+    </table>
+    <button type="button" class="btn btn-primary"><a class="text-light text-decoration-none" href="{% url 'index' %}">BackHome</a></button>
+
+{% endblock  %}

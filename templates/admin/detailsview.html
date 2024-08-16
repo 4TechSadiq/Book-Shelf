@@ -1,0 +1,30 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="container-fluid">
+        <h1>Book details</h1>
+        <div class="col-8">
+            <table class="table text-dark table-striped">
+                <thead>
+                    <tr>
+                        <td>Book Title</td>
+                        <td>Book Price</td>
+                        <td>Book Author</td>
+                        <td>Image</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{book.title}}</td>
+                        <td>{{book.price}}</td>
+                        <td>{{ book.author }}</td>
+                        <td><img src="{{book.image.url}}" class="card-img-top" alt=""></td>
+                    </tr>
+                </tbody>
+            </table>
+            <a href="{% url 'booklist' %}" class="btn btn-primary">back home</a>
+        </div>
+        
+    </div>
+{% endblock %}
