@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect, HttpResponseRedirect
 from bookapp.models import book
-from .models import Cart, CartItem, CustomUser
+from .models import Cart, CartItem
 from django.core.paginator import Paginator,EmptyPage
 from django.core.paginator import Paginator,EmptyPage
 from django.db.models import Q
@@ -11,8 +11,11 @@ from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from .forms import CustomUserCreationForm
+#from .forms import CustomUserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import authenticate, login
 
 # Create your views here.
 
@@ -35,6 +38,7 @@ def logout(request):
 @login_required
 def userapp(request):
     Books = book.objects.all()
+    print(f" user is {request.user}")
     #print(request.user)
     paginator = Paginator(Books,8)
     page_no = request.GET.get("page")
@@ -174,28 +178,57 @@ def searchUserBook(request):
 #     if request.method == "POST":
 #         pass
 
+# def register(request):
+#     if request.method == "POST":
+#         form = CustomUserCreationForm(request.POST)
+#         if form.is_valid():
+#             user = form.save()
+#             login(request, user)
+#             return redirect("index")
+#     else:
+#         form = CustomUserCreationForm()
+#     return render(request, "user/signup.html", {"form": form})
+
+# def user_login(request):
+#     if request.method == "POST":
+#         form = AuthenticationForm(request, data=request.POST)
+#         #print(form.as_p())
+#         if form.is_valid():
+#             user = form.get_user()
+#             login(request, user)
+#             return redirect("index")
+#     else:
+#         form = AuthenticationForm()
+#     return render(request, "user/login.html", {"form": form})
+
+
 def register(request):
-    if request.method == "POST":
-        form = CustomUserCreationForm(request.POST)
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect("index")
+            form.save()
+            return redirect('login')
     else:
-        form = CustomUserCreationForm()
-    return render(request, "user/signup.html", {"form": form})
+        form = UserCreationForm()
+    return render(request, 'user/signup.html', {'form': form})
+
 
 def user_login(request):
-    if request.method == "POST":
+    if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
-        #print(form.as_p())
         if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            return redirect("index")
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('index')
     else:
         form = AuthenticationForm()
-    return render(request, "user/login.html", {"form": form})
+    return render(request, 'user/login.html', {'form': form})
+
+
+
 
 
 def add_to_cart(request, book_id):
@@ -333,6 +366,8 @@ def checkout_session(request):
                 )
 
                 return redirect(checkout_session.url,code=303)
+    else:
+        return render(request,"user/cart.html")
         
 def success(request):
     cart_items = CartItem.objects.all()
