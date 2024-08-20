@@ -4,6 +4,10 @@ from django.core.paginator import Paginator,EmptyPage
 from django.db.models import Q
 from django.contrib.auth.models import User
 from django.contrib import messages,auth
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -49,6 +53,7 @@ def listBook(request):
     Books = book.objects.all()
     paginator = Paginator(Books,4)
     page_no =request.GET.get("page")
+    print(request.user)
     try:
         page = paginator.get_page(page_no)
     except EmptyPage:
@@ -140,46 +145,74 @@ def combinedSearch(request):
 
     return render(request, 'admin/search.html', context)
 
+# 
+
+
 def registerUser(request):
     if request.method == "POST":
-        name = request.POST.get("name")
-        email = request.POST.get("email")
-        password = request.POST.get("password")
-        repassword = request.POST.get("re-password")
-
-        if password == repassword:
-            if User.objects.filter(username=name).exists():
-                messages.info(request,"Username already exist")
-                return redirect("signup")
-            elif User.objects.filter(email=email).exists():
-                messages.info(request,"email already taken")
-                return redirect("signup")
-            else:
-                user = User.objects.create_user(username=name,email=email,password=password)
-                user.save()
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            messages.success(request, "Account created successfully! You can now log in.")
             return redirect("login")
         else:
-            messages.info(request,"password doesnt match try again")
+            # If the form is not valid, show form errors
+            for error in form.errors.values():
+                messages.error(request, error)
             return redirect("signup")
     
-    return render(request,"admin/register.html")
+    else:
+        form = UserCreationForm()
+
+    return render(request, "admin/register.html", {"form": form})
+
+
+# def loginUser(request):
+#     username = "admin"
+#     password = "123"
+#     if request.method == "POST":
+#         user = request.POST.get("username")
+#         pashword = request.POST.get("password")
+#         user = auth.authenticate(username=username,password=password)
+
+#         if user is not None:
+#             auth.login(request,user)
+#             return redirect("booklist")
+#         else:
+#             messages.info(request,"invalid user")
+#             return redirect("login")
+
+#     return render(request,"admin/login.html")
+
 
 def loginUser(request):
     if request.method == "POST":
-        username = request.POST.get("username")
-        password = request.POST.get("password")
-
-        user = auth.authenticate(username=username,password=password)
-
-        if user is not None:
-            auth.login(request,user)
-            return redirect("booklist")
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = request.POST["username"]
+            password = request.POST["password"]
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                print(f"userrrrrrrrrrr {request.user}")
+                messages.success(request, "Login successful!")
+                return redirect("booklist")  # Redirect to a home or dashboard page
+            else:
+                messages.error(request, "Invalid username or password.")
+                return redirect("login")
         else:
-            messages.info(request,"invalid user")
+            # If the form is not valid, show form errors
+            for error in form.errors.values():
+                messages.error(request, error)
             return redirect("login")
+    
+    else:
+        form = AuthenticationForm()
 
-    return render(request,"admin/login.html")
+    return render(request, "admin/login.html", {"form": form})
 
-def logOut(request):
-    auth.logout(request)
+@login_required
+def logOut_user(request):
+    logout(request)
+    messages.success(request, "You have been logged out successfully.")
     return redirect("login")
