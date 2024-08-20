@@ -77,10 +77,16 @@ AUTH_USER_MODEL = "userapp.CustomUser"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+import psycopg
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'verceldb',
+        'HOST' : 'ep-frosty-star-a4yytsa2-pooler.us-east-1.aws.neon.tech',
+        'USER' : 'default',
+        'PASSWORD' : 'JjengrtI5yw1',
+        'PORT' : '5432',
+        
     }
 }
 

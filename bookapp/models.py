@@ -1,4 +1,5 @@
 from django.db import models
+import psycopg
 
 # Create your models here.
 
