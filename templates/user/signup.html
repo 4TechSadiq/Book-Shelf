@@ -23,6 +23,7 @@
                         {% csrf_token %}
                         {{ form.as_p }}
                         <button type="submit">Register</button>
+                        <a href="{% url 'booklist' %}" class="btn btn-primary">Admin site</a>
                     </form>
       
                     </div>
