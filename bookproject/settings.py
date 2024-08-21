@@ -89,9 +89,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'verceldb',
-        'HOST' : 'ep-frosty-star-a4yytsa2-pooler.us-east-1.aws.neon.tech',
+        'HOST' : 'ep-green-term-a4j67v9e-pooler.us-east-1.aws.neon.tech',
         'USER' : 'default',
-        'PASSWORD' : 'JjengrtI5yw1',
+        'PASSWORD' : 'jFVERO3wL7nH',
         'PORT' : '5432',
         
     }
@@ -135,14 +135,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-# STATIC_URL = '/static/'
-# STATICFILES_DIRS = [os.path.join(BASE_DIR,"static")]
-
 STATIC_URL = '/static/'
-STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
-
-#STATIC_ROOT = os.path.join(BASE_DIR,"assets")
+STATICFILES_DIRS = [os.path.join(BASE_DIR,"static")]
+STATIC_ROOT = os.path.join(BASE_DIR,"assets")
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR,"media")
 # Default primary key field type
