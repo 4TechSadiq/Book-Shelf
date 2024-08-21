@@ -22,7 +22,7 @@
                       <form method="post" class="form-control" enctype="multipart/form-data">
                         {% csrf_token %}
                         {{ form.as_p }}
-                        <button type="submit">Register</button>
+                        <button type="submit" class="btn btn-primary">Register</button>
                         <a href="{% url 'booklist' %}" class="btn btn-primary">Admin site</a>
                     </form>
       
