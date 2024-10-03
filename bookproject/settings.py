@@ -89,9 +89,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'verceldb',
-        'HOST' : 'ep-green-term-a4j67v9e-pooler.us-east-1.aws.neon.tech',
+        'HOST' : '',
         'USER' : 'default',
-        'PASSWORD' : 'jFVERO3wL7nH',
+        'PASSWORD' : '',
         'PORT' : '5432',
         
     }
@@ -149,7 +149,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR,"media")
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-STRIPE_PUBLISHABLE_KEY = "pk_test_51Pm9dW09RSNCkCeLWAesCmdAteNtE48mUXSJWTa2BF2l9JNoW45VKHFOn6b0a5716ode7LcOwvyYpXxPXdbZSQHf00Fqviu3nY"
-STRIPE_SECRET_KEY = "sk_test_51Pm9dW09RSNCkCeLOJ3s8s5IfEAVRqFnOvxbGsracNfvMnMGe14UFKwW6Y7ZZAuH88zmW85nQmVy7DM2hs2HLx3E009VCCc12t"
+STRIPE_PUBLISHABLE_KEY = ""
+STRIPE_SECRET_KEY = ""
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # Default session engine
